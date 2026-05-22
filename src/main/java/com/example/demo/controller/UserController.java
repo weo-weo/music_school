@@ -35,4 +35,9 @@ public class UserController {
         direction.setId(id);
         return repository.save(direction);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
 }
