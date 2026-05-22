@@ -16,6 +16,7 @@ public class Teacher {
 
     private String firstName;
     private String lastName;
+    @Column(name = "patronymic")
     private String middleName;
     private String phone;
     private String email;

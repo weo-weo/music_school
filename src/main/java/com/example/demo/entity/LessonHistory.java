@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "lesson_histories")
+@Table(name = "lesson_history")
 @Getter
 @Setter
 public class LessonHistory {
@@ -33,5 +33,6 @@ public class LessonHistory {
     @Column(nullable = false)
     private Integer durationMinutes; // Длительность (в минутах)
 
+    @Column(name = "note", length = 1000)
     private String notes; // Примечание
 }

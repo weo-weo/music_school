@@ -17,6 +17,6 @@ public class Qualification {
     @Column(nullable = false)
     private String name; // Наименование
 
-    @Column(nullable = false)
+    @Column(name = "payment_coefficient", nullable = false)
     private Double salaryCoefficient; // Коэффициент оплаты
 }

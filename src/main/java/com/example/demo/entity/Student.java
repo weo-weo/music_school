@@ -17,6 +17,7 @@ public class Student {
 
     private String firstName;
     private String lastName;
+    @Column(name = "patronymic")
     private String middleName;
     private LocalDate birthDate; // Дата рождения
     private String phone;

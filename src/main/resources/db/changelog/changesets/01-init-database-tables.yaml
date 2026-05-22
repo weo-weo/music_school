@@ -1,0 +1,242 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-initial-tables
+      author: olesia
+      changes:
+        #Таблица Квалификаций
+        - createTable:
+            tableName: qualifications
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_coefficient
+                  type: double precision
+                  constraints:
+                    nullable: false
+
+        #Таблица Пользователей
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+        #Таблица Преподавателей
+        - createTable:
+            tableName: teachers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar(100)
+              - column:
+                  name: qualification_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_teachers_qualification
+                    referencedTableName: qualifications
+                    referencedColumnNames: id
+              - column:
+                  name: phone
+                  type: varchar(20)
+              - column:
+                  name: email
+                  type: varchar(100)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+                    foreignKeyName: fk_teachers_user
+                    referencedTableName: users
+                    referencedColumnNames: id
+
+        #Таблица Направлений
+        - createTable:
+            tableName: directions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: base_price_per_half_hour
+                  type: double precision
+                  constraints:
+                    nullable: false
+
+        #Таблица Специализаций
+        - createTable:
+            tableName: specializations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: teacher_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_specializations_teacher
+                    referencedTableName: teachers
+                    referencedColumnNames: id
+              - column:
+                  name: direction_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_specializations_direction
+                    referencedTableName: directions
+                    referencedColumnNames: id
+
+        #Таблица Учеников
+        - createTable:
+            tableName: students
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar(100)
+              - column:
+                  name: birth_date
+                  type: date
+              - column:
+                  name: phone
+                  type: varchar(20)
+              - column:
+                  name: registration_date
+                  type: date
+              - column:
+                  name: gender
+                  type: varchar(10)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+                    foreignKeyName: fk_students_user
+                    referencedTableName: users
+                    referencedColumnNames: id
+
+        #Таблица Истории занятий
+        - createTable:
+            tableName: lesson_history
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: student_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_lessons_student
+                    referencedTableName: students
+                    referencedColumnNames: id
+              - column:
+                  name: specialization_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_lessons_specialization
+                    referencedTableName: specializations
+                    referencedColumnNames: id
+              - column:
+                  name: lesson_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lesson_time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: duration_minutes
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: note
+                  type: varchar(1000)
