@@ -24,23 +24,17 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        // Ищем пользователя
         User user = userRepository.findByUsername(loginRequest.getUsername()).orElse(null);
 
-        // Проверяем пароль (вживую, без хэширования, чтобы не ломать архитектуру тестов)
         if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-            // Генерируем токен
             String token = jwtUtils.generateToken(user.getUsername(), user.getRole().name());
-            // Возвращаем JSON с токеном
             return ResponseEntity.ok(Map.of("token", token));
         }
 
-        // Если что-то не так — даем от ворот поворот
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверный логин или пароль");
     }
 }
 
-// Маленький вспомогательный DTO класс для парсинга JSON запроса
 @Data
 class LoginRequest {
     private String username;

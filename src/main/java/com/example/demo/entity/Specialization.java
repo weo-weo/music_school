@@ -14,12 +14,10 @@ public class Specialization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Код специализации
 
-    // Какой преподаватель...
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
-    // ...какое направление ведет
     @ManyToOne
     @JoinColumn(name = "direction_id", nullable = false)
     private Direction direction;
